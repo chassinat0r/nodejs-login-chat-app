@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-express-login-system",
+  "version": "1.0.0",
+  "description": "Account registration and login system written in Node.js using Express.js and SQLite",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chasc0des/nodejs-express-login-system.git"
+  },
+  "author": "chasc0des",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chasc0des/nodejs-express-login-system/issues"
+  },
+  "homepage": "https://github.com/chasc0des/nodejs-express-login-system#readme"
+}
