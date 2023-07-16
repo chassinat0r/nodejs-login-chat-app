@@ -26,3 +26,6 @@ node app.js
 By default, the program can be accessed on http://localhost:8080 or from another machine on your network, http://``<YOUR IP ADDRESS>``:8080.
 
 ## Screenshots
+<img src="screenshots/sign-in.png" alt="Sign In screen" style="width: 100%">
+
+<img src="screenshots/sign-up.png" alt="Sign Up screen" style="width: 100%">
