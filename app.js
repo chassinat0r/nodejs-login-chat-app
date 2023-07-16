@@ -4,12 +4,18 @@ const { urlencoded } = require('body-parser')
 const cookieParser = require('cookie-parser')
 const { Database } = require('sqlite3')
 const { open } = require('sqlite')
+const account = require('./lib/account')
 
 // Setup Express application
 const app = express()
 app.use(express.static(__dirname + "/public")) // Serve static files from public directory
 app.use(urlencoded({ extended: true })) // Parse request bodies
 app.use(cookieParser()) // Read and write browser cookies
+
+// POST request /register
+app.post('/register', async (req, res) => {
+    await account.register(req, res) // Execute registration
+})
 
 const PORT = 8080
 
