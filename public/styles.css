@@ -1,0 +1,57 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: rgb(0, 0, 117);
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.login {
+    width: 500px;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px 10px;
+}
+
+label.login__label {
+    display: block;
+    font-weight: bold;
+}
+
+input.login__input {
+    width: 100%;
+    height: 30px;
+}
+
+.login__text {
+    text-align: center;
+}
+
+fieldset {
+    border: none;
+}
+
+input[type=submit].login__submit {
+    width: 80%;
+    height: 40px;
+    display: block;
+    margin: 15px auto;
+    border-radius: 5px;
+    background: rgb(0, 0, 117);
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+a:any-link {
+    color: black;
+    font-weight: bold;
+    text-decoration: none;
+}

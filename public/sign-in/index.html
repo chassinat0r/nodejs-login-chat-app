@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="../styles.css">
+        <title>Sign In</title>
+    </head>
+    <body>
+        <div class="login">
+            <h1 class="login__text">Sign In</h1>
+            <form action="/login" method="POST">
+                <fieldset>
+                    <label class="login__label" for="email">Email</label>
+                    <input type="email" class="login__input" id="email" name="email" required>
+                </fieldset>
+                <fieldset>
+                    <label class="login__label" for="password">Password</label>
+                    <input type="password" class="login__input" id="password" name="password" required>
+                </fieldset>
+                <input type="submit" class="login__submit" value="SIGN IN">
+            </form>
+            <p class="login__text">No account? <a href="/sign-up">Create one.</a></p>
+        </div>
+    </body>
+</html>
