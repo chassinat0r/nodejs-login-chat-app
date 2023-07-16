@@ -6,6 +6,20 @@
 
 A login system in Node.js/Express.js. This includes the ability to register, login, view, edit, and delete an account at any time. Passwords are hashed using bcrypt and account information and sessions are stored in a SQLite database.
 
+## Features
+
+🟢 = Fully working | 🟡 = Partly working/in progress | 🟠 = To be added | 🔴 = Broken
+
+* Database 🟢
+* Sign Up 🟢
+* Sign In 🟢
+* Session management system 🟡
+* Homepage 🟠
+* Edit account 🟠
+* Delete account 🟠
+* Email verification 🟠
+* Remember me 🟠
+
 ## Installation instructions
 
 ### Dependencies
@@ -23,7 +37,7 @@ npm install .
 node app.js
 ```
 
-By default, the program can be accessed on http://localhost:8080 or from another machine on your network, http://``<YOUR IP ADDRESS>``:8080.
+By default, the program can be accessed on http://localhost:8080 or from another machine on your network, ``http://<YOUR IP ADDRESS>:8080``.
 
 ## Screenshots
 <img src="screenshots/sign-in.png" alt="Sign In screen" style="width: 100%">
