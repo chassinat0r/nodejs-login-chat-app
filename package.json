@@ -22,6 +22,7 @@
     "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "sqlite": "^5.0.1",
-    "sqlite3": "^5.1.6"
+    "sqlite3": "^5.1.6",
+    "uuid": "^9.0.0"
   }
 }

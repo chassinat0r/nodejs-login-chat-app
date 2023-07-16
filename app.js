@@ -17,6 +17,11 @@ app.post('/register', async (req, res) => {
     await account.register(req, res) // Execute registration
 })
 
+// POST request /login
+app.post('/login', async (req, res) => {
+    await account.login(req, res) // Execute login
+})
+
 const PORT = 8080
 
 // Run app on specified port
@@ -46,7 +51,7 @@ const setupDatabase = async () => {
 
     // Create sessions table if it doesn't exist
     await db.run(`
-        CREATE TABLE IF NOT EXISTS session (
+        CREATE TABLE IF NOT EXISTS sessions (
             id INTEGER,
             session TEXT UNIQUE
         )
