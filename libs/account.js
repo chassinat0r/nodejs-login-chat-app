@@ -70,7 +70,7 @@ const login = async (req, res) => {
     const session = await generateSession(id) // Generate session and store alongside ID in sessions table
 
     res.cookie('session', session) // Save cookie with session
-    res.end("Sign in successful") // Placeholder text indicating success
+    res.redirect('/') // Go to homepage
 
     return true
 }
@@ -97,4 +97,68 @@ const generateSession = async (id) => {
     return session
 }
 
-module.exports = { register, login }
+// Function idFromSession
+// Obtain ID from the sessions table corresponding to session obtained from cookie 
+const idFromSession = async (session) => {
+    const db = await openDatabase("accounts.db")
+
+    const sessionValid = await db.get("SELECT id FROM sessions WHERE session = ?", session) // Fetch ID from entry of sessions table where session is equal to that of cookie
+
+    if (!sessionValid) { // No entry found
+        return false
+    }
+
+    const id = sessionValid.id // Otherwise, obtain ID from entry
+
+    return id
+}
+
+// Function getUserDetails
+// Use session stored in cookie to obtain first name, last name, and email of the signed in user
+const getUserDetails = async (req, res) => {
+    const session = req.cookies.session // Get value of session cookie
+
+    const id = await idFromSession(session) // Get ID of account using session
+
+    if (!id) { // No ID found, which could mean: no session cookie saved or the session deleted from table
+        res.clearCookie('session') // Clear the cookie
+        res.redirect('/sign-in') // Go to sign in page
+        return
+    }
+
+    const db = await openDatabase("accounts.db")
+
+    const userDetails = await db.get("SELECT * FROM users WHERE id = ?", id) // Get all data from entry of users table corresponding to ID
+
+    if (!userDetails) { // No entry found
+        res.end("This user no longer exists.")
+        return
+    }
+
+    // Get details from entry
+    const firstName = userDetails.firstname
+    const lastName = userDetails.lastname
+    const email = userDetails.email
+
+    // Show HTML page with details
+    res.end(`
+    <!DOCTYPE html>
+    <html>
+        <head lang="en">
+            <meta charset="utf-8">
+            <link rel="stylesheet" href="/styles.css">
+            <title>Home</title>
+        </head>
+        <body>
+            <div class="page">
+                <h1 class="page__title">Home</h1>
+                <p><strong>First Name:</strong> <span id="firstname">${firstName}</span></p>
+                <p><strong>Last Name:</strong> <span id="lastname">${lastName}</span></p>
+                <p><strong>Email:</strong> <span id="email">${email}</span></p>
+            </div>
+        </body>
+    </html>
+    `) 
+}
+
+module.exports = { register, login, getUserDetails }

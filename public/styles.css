@@ -56,3 +56,20 @@ a:any-link {
     font-weight: bold;
     text-decoration: none;
 }
+
+div.page {
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+h1.page__title {
+    margin: 0;
+}
