@@ -69,7 +69,15 @@ const login = async (req, res) => {
 
     const session = await generateSession(id) // Generate session and store alongside ID in sessions table
 
-    res.cookie('session', session) // Save cookie with session
+    const rememberMe = req.body.rememberme
+
+    // Save session as browser cookie
+    if (rememberMe) {
+        res.cookie('session', session, { expires: new Date(Date.now() + 31536000000), httpOnly: true }) // Expire in a years time
+    } else {
+        res.cookie('session', session, { httpOnly: true }) // Expire when browser closed
+    }
+
     res.redirect('/') // Go to homepage
 
     return true
