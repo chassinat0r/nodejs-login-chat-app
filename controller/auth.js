@@ -58,6 +58,8 @@ const signIn = async (req, res) => {
 
     const { id, password: hash } = userRow // Get ID and hashed password from entry
 
+    await db.close()
+
     // Check if the password submitted in form matches the hash
     const passwordsMatch = await bcrypt.compare(password, hash) 
 
@@ -72,6 +74,22 @@ const signIn = async (req, res) => {
     res.redirect('/') // Redirect to homepage
 
     return true
+}
+
+// Function to sign out of account
+const signOut = async (req, res) => {
+    const session = req.cookies.session // Get session cookie value
+
+    const db = await open({
+        filename: "accounts.db",
+        driver: Database
+    })
+
+    // Delete session from database
+    await db.run("DELETE FROM sessions WHERE session = ?", session)
+    await db.close()
+
+    res.clearCookie('session') // Clear session cookie
 }
 
 // Function to generate and write session token to database
@@ -104,5 +122,6 @@ const generateSession = async (id) => {
 
 module.exports = {
     signUp,
-    signIn
+    signIn,
+    signOut
 }

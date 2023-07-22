@@ -35,8 +35,8 @@ const setupDatabase = async () => {
 
 setupDatabase() 
 
-// Run Express.js app on specified port
-const PORT = 8080
+// Run Express.js app on port given by environment variable, or if none set, default to 8080
+const PORT = process.env.PORT || 8080
 
 app.listen(PORT, () => {
     console.log("App running on port " + PORT)

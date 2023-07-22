@@ -103,7 +103,12 @@ const homePage = async (req, res, next) => {
                 <div class="page">
                     <h1 class="page__title">Home</h1>
                     <h2>Welcome back, ${firstName} ${lastName}</h2>
+                    <div class="page__button-panel">
+                        <button type="button" class="page__button-panel__button" id="signout-button">Sign Out</button>
+                    </div>
                 </div>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+                <script src="/scripts/home.js"></script>
             </body>
         </html>
     `)

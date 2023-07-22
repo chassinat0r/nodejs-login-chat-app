@@ -73,3 +73,13 @@ div.page {
 h1.page__title {
     margin: 0;
 }
+
+button.page__button-panel__button {
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 10px;
+    background: rgb(0, 0, 117);
+    font-weight: bold;
+    color: white;
+}
