@@ -13,12 +13,12 @@ A login system in Node.js/Express.js. This includes the ability to register, log
 * Database 🟢
 * Sign Up 🟢
 * Sign In 🟢
-* Session management system 🟡
+* Session management system 🟢
 * Homepage 🟡
 * Edit account 🟠
 * Delete account 🟠
 * Email verification 🟠
-* Remember me 🟢
+* Remember me 🔴
 
 ## Installation instructions
 
@@ -34,10 +34,10 @@ A login system in Node.js/Express.js. This includes the ability to register, log
 git clone https://github.com/chasc0des/nodejs-express-login-system.git
 cd nodejs-express-login-system
 npm install .
-node app.js
+npm start
 ```
 
-By default, the program can be accessed on http://localhost:8080 or from another machine on your network, ``http://<YOUR IP ADDRESS>:8080``.
+By default, the program can be accessed on ``http://localhost:8080`` or from another machine on your network, ``http://<YOUR IP ADDRESS>:8080``.
 
 ## Screenshots
 <img src="screenshots/sign-in.png" alt="Sign In form" style="width: 100%">
