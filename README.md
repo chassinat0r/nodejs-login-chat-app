@@ -45,3 +45,5 @@ By default, the program can be accessed on ``http://localhost:8080`` or from ano
 <img src="screenshots/sign-up.png" alt="Sign Up form" style="width: 100%">
 
 <img src="screenshots/home.png" alt="Homepage (private info hidden)" style="width: 100%">
+
+<img src="screenshots/404.png" alt="Error 404 not found" style="width: 100%">
