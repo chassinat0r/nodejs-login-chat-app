@@ -8,10 +8,7 @@ const { v4: uuidv4 } = require('uuid') // Import UUIDv4 function
 // Function to sign up an account 
 const signUp = async (req, res) => {
     // Get information provided in form
-    const firstName = req.body.firstname
-    const lastName = req.body.lastname
-    const email = req.body.email
-    const password = req.body.password
+    const { firstname: firstName, lastname: lastName, email, password } = req.body
 
     // Open accounts database
     const db = await open({
@@ -41,8 +38,7 @@ const signUp = async (req, res) => {
 // Function to sign in to an account 
 const signIn = async (req, res) => {
     // Get credentials provided in form
-    const email = req.body.email
-    const password = req.body.password
+    const { email, password, rememberme: rememberMe } = req.body
 
     const db = await open({
         filename: "accounts.db",
@@ -70,7 +66,17 @@ const signIn = async (req, res) => {
 
     const session = await generateSession(id) // Generate unique session code and store it in table
 
-    res.cookie('session', session) // Save cookie
+    if (rememberMe) { // User checked remember me box
+        res.cookie('session', session, {
+            httpOnly: true, // Cannot be accessed outside of HTTP
+            expires: new Date(Date.now() + 31536000000) // Expire in a year
+        })
+    } else {
+        res.cookie('session', session, {
+            httpOnly: true,
+        }) // Expires when web browser closed
+    }
+    
     res.redirect('/') // Redirect to homepage
 
     return true
@@ -90,6 +96,7 @@ const signOut = async (req, res) => {
     await db.close()
 
     res.clearCookie('session') // Clear session cookie
+    res.end()
 }
 
 // Function to generate and write session token to database

@@ -18,7 +18,7 @@ A login system in Node.js/Express.js. This includes the ability to register, log
 * Edit account 🟠
 * Delete account 🟠
 * Email verification 🟠
-* Remember me 🔴
+* Remember me 🟢
 
 ## Installation instructions
 
