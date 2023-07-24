@@ -5,6 +5,8 @@ const { open } = require('sqlite')
 const bcrypt = require('bcrypt') // Import bcrypt hashing implementation
 const { v4: uuidv4 } = require('uuid') // Import UUIDv4 function
 
+const { getUserDetails, getIdFromSession } = require('./view')
+
 // Function to sign up an account 
 const signUp = async (req, res) => {
     // Get information provided in form
@@ -76,7 +78,7 @@ const signIn = async (req, res) => {
             httpOnly: true,
         }) // Expires when web browser closed
     }
-    
+
     res.redirect('/') // Redirect to homepage
 
     return true
@@ -127,8 +129,52 @@ const generateSession = async (id) => {
     return session
 }
 
+// Function to verify password and update account details
+const editAccount = async (req, res) => {
+    const db = await open({
+        filename: "accounts.db",
+        driver: Database
+    })
+
+    const { verifypassword: verifyPassword } = req.body
+
+    const session = req.cookies.session // Get session from browser cookies
+
+    const id = await getIdFromSession(session) // Get user ID from session
+
+    const { firstname: oldFirstName, lastname: oldLastName, email: oldEmail, password: oldHash } = await getUserDetails(id) // Get current details about user from database
+
+    // Check if password given as verification is correct
+    const verifyPasswordCorrect = await bcrypt.compare(verifyPassword, oldHash)
+
+    if (!verifyPasswordCorrect) { // Isn't correct
+        res.status(401).end("Incorrect password") // 401 "unauthorised"
+        return false
+    }
+    
+    // Get details from form, or if left empty default to old ones
+    const firstName = req.body.firstname || oldFirstName
+    const lastName = req.body.lastname || oldLastName
+    const email = req.body.email || oldEmail
+    const password = req.body.password /// Get plaintext password
+
+    var hash = await bcrypt.hash(password, 10) // Hash password
+
+    if (!password) { // If password is empty
+        hash = oldHash // Default to hashed password already in database
+    }
+
+    // Update entry
+    await db.run("UPDATE users SET firstname = ?, lastname = ?, email = ?, password = ? WHERE id = ?", [firstName, lastName, email, hash, id])
+    await db.close()
+
+    res.redirect('back') // Refresh page
+    return true
+}
+
 module.exports = {
     signUp,
     signIn,
-    signOut
+    signOut,
+    editAccount
 }

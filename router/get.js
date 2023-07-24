@@ -7,5 +7,6 @@ const router = express.Router() // Create Express.js router
 router.get('/sign-up', viewController.signUpPage)
 router.get('/sign-in', viewController.signInPage)
 router.get('/', viewController.homePage)
+router.get('/edit', viewController.editPage)
 
 module.exports = router

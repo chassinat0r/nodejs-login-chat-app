@@ -3,3 +3,7 @@ $('#signout-button').click(() => { // When signout button is clicked
         location.href = "/sign-in" // Once done, redirect to sign in page
     })
 })
+
+$('#editaccount-button').click(() => {
+    location.href = "/edit"
+})
