@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="utf-8">
+        <title>Delete Account</title>
+        <link rel="stylesheet" href="/styles.css">
+    </head>
+    <body>
+        <div class="login">
+            <form action="/api/delete" method="POST">
+                <fieldset>
+                    <label for="verifypassword" class="login__label">Verify Password</label>
+                    <input type="password" class="login__input" name="verifypassword" id="verifypassword" required>
+                </fieldset>
+                <input type="submit" class="login__submit danger" value="DELETE ACCOUNT">
+            </form>
+        </div>
+    </body>
+</html>

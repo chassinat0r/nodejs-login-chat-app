@@ -172,9 +172,41 @@ const editAccount = async (req, res) => {
     return true
 }
 
+const deleteAccount = async (req, res) => {
+    const db = await open({
+        filename: "accounts.db",
+        driver: Database
+    })
+
+    const { verifypassword: verifyPassword } = req.body
+
+    const session = req.cookies.session
+
+    const id = await getIdFromSession(session)
+
+    const { password: hash } = await getUserDetails(id) // Get account password as bcrypt hash
+
+    const verifyPasswordCorrect = await bcrypt.compare(verifyPassword, hash)
+
+    if (!verifyPasswordCorrect) {
+        res.status(401).end("Incorrect password")
+        return false
+    }
+
+    // Delete account and all sessions
+    await db.run("DELETE FROM users WHERE id = ?", id)
+    await db.run("DELETE FROM sessions WHERE id = ?", id)
+    await db.close()
+
+    res.clearCookie('session') // Clear session cookie
+    res.redirect('/sign-in') // Go to sign in page
+    return true
+}
+
 module.exports = {
     signUp,
     signIn,
     signOut,
-    editAccount
+    editAccount,
+    deleteAccount
 }

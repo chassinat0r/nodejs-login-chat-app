@@ -100,3 +100,7 @@ div.page__edit {
     max-width: 500px;
     margin-top: 15px;
 }
+
+input[type=submit].danger, button.danger {
+    background-color: darkred;
+}

@@ -43,8 +43,9 @@ const homePage = async (req, res, next) => {
                     <h1 class="page__title">Home</h1>
                     <h2>Welcome back, ${firstName} ${lastName}</h2>
                     <div class="page__button-panel">
-                        <button type="button" class="page__button-panel__button" id="editaccount-button">Edit account</button>
                         <button type="button" class="page__button-panel__button" id="signout-button">Sign Out</button>
+                        <button type="button" class="page__button-panel__button" id="editaccount-button">Edit Account</button>
+                        <button type="button" class="page__button-panel__button danger" id="deleteaccount-button">Delete Account</button>
                     </div>
                 </div>
                 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -155,11 +156,24 @@ const editPage = async (req, res, next) => {
     `)
 }
 
+// Form for deleting account
+const deletePage = (req, res, next) => {
+    const session = req.cookies.session
+
+    if (!session) {
+        res.redirect('/sign-in')
+        return
+    }
+
+    res.render('delete.html')
+}
+
 module.exports = { 
     signInPage, 
     signUpPage, 
     homePage,
     editPage,
+    deletePage,
     getIdFromSession,
     getUserDetails
 }

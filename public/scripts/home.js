@@ -7,3 +7,7 @@ $('#signout-button').click(() => { // When signout button is clicked
 $('#editaccount-button').click(() => {
     location.href = "/edit"
 })
+
+$('#deleteaccount-button').click(() => {
+    location.href = "/delete"
+})
