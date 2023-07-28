@@ -14,9 +14,9 @@ A login system in Node.js/Express.js. This includes the ability to register, log
 * Sign Up 🟢
 * Sign In 🟢
 * Session management system 🟢
-* Homepage 🟡
+* Homepage 🟢
 * Edit account 🟢
-* Delete account 🟠
+* Delete account 🟢
 * Email verification 🟠
 * Remember me 🟢
 
