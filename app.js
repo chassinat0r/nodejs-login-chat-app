@@ -8,10 +8,17 @@ const postRouter = require('./router/post')
 const { urlencoded } = require('body-parser')
 const cookieParser = require('cookie-parser')
 
+const consolidate = require('consolidate')
+
 const app = express() // Create Express.js application
 app.use(express.static(__dirname + "/public")) // Serve static files in public directory
 app.use(urlencoded({ extended: true })) // Parse request bodies
 app.use(cookieParser()) // Parse cookies
+
+// Use Mustache as HTML rendering engine
+app.engine('html', consolidate.mustache)
+app.set('views', __dirname + "/public")
+app.set('view engine', 'html')
 
 // Enable routers for GET/POST requests
 app.use("/api", postRouter)

@@ -3,73 +3,12 @@ const { open } = require('sqlite')
 
 // Sign In form for authenticating an existing account
 const signInPage = (req, res, next) => {
-    res.end(`
-        <!DOCTYPE html>
-        <html>
-            <head lang="en">
-                <meta charset="utf-8">
-                <link rel="stylesheet" href="/styles.css">
-                <title>Sign In</title>
-            </head>
-            <body>
-                <div class="login">
-                    <h1 class="login__text">Sign In</h1>
-                    <form action="/api/sign-in" method="POST">
-                        <fieldset>
-                            <label class="login__label" for="email">Email</label>
-                            <input type="email" class="login__input" id="email" name="email" required>
-                        </fieldset>
-                        <fieldset>
-                            <label class="login__label" for="password">Password</label>
-                            <input type="password" class="login__input" id="password" name="password" required>
-                        </fieldset>
-                        <p class="login__text"><input type="checkbox" name="rememberme"> Keep me signed in</p>
-                        <input type="submit" class="login__submit" value="SIGN IN">
-                    </form>
-                    <p class="login__text">No account? <a href="/sign-up">Create one.</a></p>
-                </div>
-            </body>
-        </html>
-    `)
+    res.render('sign-in.html')
 } 
 
 // Sign Up form for creating a new account
 const signUpPage = (req, res, next) => {
-    res.end(`
-        <!DOCTYPE html>
-        <html>
-            <head lang="en">
-                <meta charset="utf-8">
-                <link rel="stylesheet" href="/styles.css">
-                <title>Sign Up</title>
-            </head>
-            <body>
-                <div class="login">
-                    <h1 class="login__text">Sign Up</h1>
-                    <form action="/api/sign-up" method="POST">
-                        <fieldset>
-                            <label class="login__label" for="firstname">First Name</label>
-                            <input type="text" class="login__input" id="firstname" name="firstname" required>
-                        </fieldset>
-                        <fieldset>
-                            <label class="login__label" for="lastname">Last Name</label>
-                            <input type="text" class="login__input" id="lastname" name="lastname" required>
-                        </fieldset>
-                        <fieldset>
-                            <label class="login__label" for="email">Email</label>
-                            <input type="email" class="login__input" id="email" name="email" required>
-                        </fieldset>
-                        <fieldset>
-                            <label class="login__label" for="password">Password</label>
-                            <input type="password" class="login__input" id="password" name="password" minlength=8 required>
-                        </fieldset>
-                        <input type="submit" class="login__submit" value="SIGN UP">
-                    </form>
-                    <p class="login__text">Already have an account? <a href="/sign-in">Sign in.</a></p>
-                </div>
-            </body>
-        </html>
-    `)
+    res.render('sign-up.html')
 }
 
 // Homepage displayed to signed in users with their first and last name
