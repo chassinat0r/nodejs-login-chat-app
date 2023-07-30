@@ -10,7 +10,7 @@ const { getUserDetails, getIdFromSession } = require('./view')
 // Function to sign up an account 
 const signUp = async (req, res) => {
     // Get information provided in form
-    const { firstname: firstName, lastname: lastName, email, password } = req.body
+    const { username, password } = req.body
 
     // Open accounts database
     const db = await open({
@@ -18,18 +18,18 @@ const signUp = async (req, res) => {
         driver: Database
     })
 
-    // Check if email is not already taken
-    const emailTaken = await db.get("SELECT * FROM users WHERE email = ?", email)
+    // Check if username is not already taken
+    const usernameTaken = await db.get("SELECT * FROM users WHERE username = ?", username)
 
-    if (emailTaken) {
-        res.status(409).end("Email already in use.") // 409 "conflict" error
+    if (usernameTaken) {
+        res.status(409).end("Username already in use.") // 409 "conflict" error
         return false // Terminate function
     }
 
     const hash = await bcrypt.hash(password, 10) // Hash password using bcrypt
 
     // Insert new entry into users table
-    await db.run("INSERT INTO users (firstname, lastname, email, password) VALUES (?, ?, ?, ?)", [firstName, lastName, email, hash])
+    await db.run("INSERT INTO users (username, password) VALUES (?, ?)", [username, hash])
     await db.close()
 
     res.redirect('/sign-in') // Redirect to sign in page
@@ -40,17 +40,17 @@ const signUp = async (req, res) => {
 // Function to sign in to an account 
 const signIn = async (req, res) => {
     // Get credentials provided in form
-    const { email, password, rememberme: rememberMe } = req.body
+    const { username, password, rememberme: rememberMe } = req.body
 
     const db = await open({
         filename: "accounts.db",
         driver: Database
     })
 
-    const userRow = await db.get("SELECT id, password FROM users WHERE email = ?", email) // Get ID and password from entry with provided email
+    const userRow = await db.get("SELECT id, password FROM users WHERE username = ?", username) // Get ID and password from entry with provided username
 
-    if (!userRow) { // No entry found, meaning the email is not registered
-        res.status(401).end("Incorrect email or password.") // 401 "unauthorised" error
+    if (!userRow) { // No entry found, meaning the username is not registered
+        res.status(401).end("Incorrect username or password.") // 401 "unauthorised" error
         return false
     }
 
@@ -62,7 +62,7 @@ const signIn = async (req, res) => {
     const passwordsMatch = await bcrypt.compare(password, hash) 
 
     if (!passwordsMatch) {
-        res.status(401).end("Incorrect email or password.")
+        res.status(401).end("Incorrect username or password.")
         return false
     }
 
@@ -142,7 +142,7 @@ const editAccount = async (req, res) => {
 
     const id = await getIdFromSession(session) // Get user ID from session
 
-    const { firstname: oldFirstName, lastname: oldLastName, email: oldEmail, password: oldHash } = await getUserDetails(id) // Get current details about user from database
+    const { username: oldUsername, password: oldHash } = await getUserDetails(id) // Get current details about user from database
 
     // Check if password given as verification is correct
     const verifyPasswordCorrect = await bcrypt.compare(verifyPassword, oldHash)
@@ -153,10 +153,16 @@ const editAccount = async (req, res) => {
     }
     
     // Get details from form, or if left empty default to old ones
-    const firstName = req.body.firstname || oldFirstName
-    const lastName = req.body.lastname || oldLastName
-    const email = req.body.email || oldEmail
+    const username = req.body.username || oldUsername
     const password = req.body.password /// Get plaintext password
+
+    // Check if new username is not already taken by another account
+    const usernameTaken = await accDb.get("SELECT * FROM users WHERE username = ?", username)
+
+    if (usernameTaken && oldUsername !== username) { // Username is already in use and it's not the user's current username
+        res.status(409).end("Username already in use.")
+        return false
+    }
 
     var hash = await bcrypt.hash(password, 10) // Hash password
 
@@ -165,27 +171,29 @@ const editAccount = async (req, res) => {
     }
 
     // Update entry
-    await db.run("UPDATE users SET firstname = ?, lastname = ?, email = ?, password = ? WHERE id = ?", [firstName, lastName, email, hash, id])
+    await db.run("UPDATE users SET username = ?, password = ? WHERE id = ?", [username, hash, id])
     await db.close()
 
-    res.redirect('back') // Refresh page
+    res.redirect('/') // Refresh page
     return true
 }
 
+// Function to permanently delete account from database
 const deleteAccount = async (req, res) => {
     const db = await open({
         filename: "accounts.db",
         driver: Database
     })
 
-    const { verifypassword: verifyPassword } = req.body
+    const { verifypassword: verifyPassword } = req.body // Get password to verify user
 
-    const session = req.cookies.session
+    const session = req.cookies.session // Get session from cookie
 
-    const id = await getIdFromSession(session)
+    const id = await getIdFromSession(session) // Get ID from session
 
     const { password: hash } = await getUserDetails(id) // Get account password as bcrypt hash
 
+    // Check that password for verification is correct
     const verifyPasswordCorrect = await bcrypt.compare(verifyPassword, hash)
 
     if (!verifyPasswordCorrect) {

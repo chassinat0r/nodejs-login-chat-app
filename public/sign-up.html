@@ -2,6 +2,7 @@
 <html>
     <head lang="en">
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/styles.css">
         <title>Sign Up</title>
     </head>
@@ -10,16 +11,8 @@
             <h1 class="login__text">Sign Up</h1>
             <form action="/api/sign-up" method="POST">
                 <fieldset>
-                    <label class="login__label" for="firstname">First Name</label>
-                    <input type="text" class="login__input" id="firstname" name="firstname" required>
-                </fieldset>
-                <fieldset>
-                    <label class="login__label" for="lastname">Last Name</label>
-                    <input type="text" class="login__input" id="lastname" name="lastname" required>
-                </fieldset>
-                <fieldset>
-                    <label class="login__label" for="email">Email</label>
-                    <input type="email" class="login__input" id="email" name="email" required>
+                    <label class="login__label" for="username">Username</label>
+                    <input type="text" class="login__input" id="username" name="username" required>
                 </fieldset>
                 <fieldset>
                     <label class="login__label" for="password">Password</label>

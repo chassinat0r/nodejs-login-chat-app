@@ -35,8 +35,8 @@ app.use((req, res, next) => {
                 <title>Error 404</title>
             </head>
             <body>
-                <div class="page">
-                    <h1 class="page__title">Error 404</h1>
+                <div class="home">
+                    <h1 class="home__header">Error 404</h1>
                     <p>The page you are looking for may have:</p>
                     <ul>
                         <li>Been deleted</li>

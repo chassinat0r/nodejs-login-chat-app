@@ -8,8 +8,19 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+@media (orientation: landscape) {
+    div.login {
+        width: 500px;
+    }
+}
+
+@media (orientation: portrait) {
+    div.login {
+        width: 350px;
+    }
+}
+
 div.login {
-    width: 500px;
     position: fixed;
     left: 50%;
     top: 50%;
@@ -20,12 +31,12 @@ div.login {
     padding: 15px 10px;
 }
 
-label.login__label, label.page__edit__label {
+label.login__label {
     display: block;
     font-weight: bold;
 }
 
-input.login__input, input.page__edit__input {
+input.login__input {
     width: 100%;
     height: 30px;
     border: 1px solid black;
@@ -39,7 +50,8 @@ fieldset {
     border: none;
 }
 
-input[type=submit].login__submit, input[type=submit].page__edit__submit {
+input[type=submit].login__submit {
+    width: 80%;
     height: 40px;
     display: block;
     margin: 15px auto;
@@ -51,21 +63,13 @@ input[type=submit].login__submit, input[type=submit].page__edit__submit {
     font-size: 15px;
 }
 
-input[type=submit].login__submit {
-    width: 80%;
-}
-
-input[type=submit].page__edit__submit {
-    width: 60%;
-}
-
 a:any-link {
-    color: black;
+    color: rgb(0, 0, 117);
     font-weight: bold;
     text-decoration: none;
 }
 
-div.page {
+div.home {
     width: calc(100% - 50px);
     height: calc(100% - 50px);
     position: fixed;
@@ -78,29 +82,102 @@ div.page {
     padding: 15px;
 }
 
-h1.page__title {
+.home__header {
     margin: 0;
 }
 
-button.page__button-panel__button {
-    height: 30px;
-    border: none;
-    border-radius: 5px;
-    padding: 0px 10px;
-    background: rgb(0, 0, 117);
-    font-weight: bold;
-    color: white;
-}
-
-div.page__edit__separator {
+div.home__edit__separator {
     border: 1px solid black;
 }
 
-div.page__edit {
+div.home__edit {
     max-width: 500px;
     margin-top: 15px;
 }
 
 input[type=submit].danger, button.danger {
     background-color: darkred;
+}
+
+div.home__container {
+    display: flex;
+    height: 100%;
+}
+
+@media (orientation: landscape) {
+    div.home__container__users-view {
+        flex-basis: 200px;
+    }
+    div.home__container__chat-view {
+        flex-basis: calc(100% - 200px);
+    }
+}
+
+@media (orientation: portrait) {
+    div.home__container__users-view {
+        flex-basis: 125px;
+    }
+    div.home__container__chat-view {
+        flex-basis: calc(100% - 125px);
+    }
+}
+
+div.home__container__users-view {
+    border-right: 1px solid black;
+    margin-right: 15px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+div.home__container__chat-view {
+    display: flex;
+    flex-direction: column;
+}
+
+div.home__container__users-view__list {
+    overflow-y: auto;
+    flex-basis: 100%;
+}
+
+div.home__container__users-view__buttons {
+    flex-basis: content;
+}
+
+div.home__container__users-view__list__user, div.home__container__chat-view__chatlog__message {
+    margin-top: 5px;
+}
+
+button.home__container__users-view__buttons__btn {
+    width: 100%;
+    height: 30px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(0, 0, 117);
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+div.home__container__chat-view__message {
+    width: 100%;
+    flex-basis: 30px;
+    display: flex;
+}
+
+input[type=text].home__container__chat-view__message__body {
+    border: 1px solid black;
+    width: 100%;
+}
+
+div.home__container__chat-view__chatlog {
+    flex-basis: calc(100% - 30px);
+    overflow-y: auto;
+}
+
+button.home__container__chat-view__message__send {
+    background-color: rgb(0, 0, 117);
+    color: white;
+    font-weight: bold;
+    border: none;
 }
