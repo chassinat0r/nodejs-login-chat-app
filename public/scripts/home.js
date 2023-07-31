@@ -44,18 +44,18 @@ socket.on('receive message', message => {
 
 // Handling the receiving of chatlog for new connections
 socket.on('receive chatlog', messages => {
-    messages.forEach(message => { // Go through each message of chatlog
-        const { username, content } = message
+    for (let i = messages.length-1; i > 0; i--) { // Go through each message of chatlog from last (oldest) to first (newest)
+        const { id, username, content } = messages[i]
 
         // Add message to chatlog
         let html = $('.home__container__chat-view__chatlog').html()
         html += `
             <div class="home__container__chat-view__chatlog__message">
-                <strong>${username}:</strong> ${content}
+                <strong>${id}. ${username}:</strong> ${content}
             </div>
         `
         $('.home__container__chat-view__chatlog').html(html)
-    })
+    }
 })
 
 // Handling the receiving of users list for new connections

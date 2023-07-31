@@ -140,9 +140,7 @@ const editAccount = async (req, res) => {
 
     const session = req.cookies.session // Get session from browser cookies
 
-    const id = await getIdFromSession(session) // Get user ID from session
-
-    const { username: oldUsername, password: oldHash } = await getUserDetails(id) // Get current details about user from database
+    const { id, username: oldUsername, password: oldHash } = await getUserDetails(session) // Get current details about user from database
 
     // Check if password given as verification is correct
     const verifyPasswordCorrect = await bcrypt.compare(verifyPassword, oldHash)
@@ -157,7 +155,7 @@ const editAccount = async (req, res) => {
     const password = req.body.password /// Get plaintext password
 
     // Check if new username is not already taken by another account
-    const usernameTaken = await accDb.get("SELECT * FROM users WHERE username = ?", username)
+    const usernameTaken = await db.get("SELECT * FROM users WHERE username = ?", username)
 
     if (usernameTaken && oldUsername !== username) { // Username is already in use and it's not the user's current username
         res.status(409).end("Username already in use.")
@@ -189,9 +187,7 @@ const deleteAccount = async (req, res) => {
 
     const session = req.cookies.session // Get session from cookie
 
-    const id = await getIdFromSession(session) // Get ID from session
-
-    const { password: hash } = await getUserDetails(id) // Get account password as bcrypt hash
+    const { id, password: hash } = await getUserDetails(session) // Get account password as bcrypt hash
 
     // Check that password for verification is correct
     const verifyPasswordCorrect = await bcrypt.compare(verifyPassword, hash)

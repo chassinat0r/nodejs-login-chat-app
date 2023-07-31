@@ -24,7 +24,7 @@ const getChatLog = async (socket) => {
         driver: Database
     })
 
-    const messages = await db.all("SELECT * FROM chatlog ORDER BY id ASC LIMIT 300") // Obtain all information about the latest 300 messages
+    const messages = await db.all("SELECT * FROM chatlog ORDER BY id DESC LIMIT 300") // Obtain all information about the latest 300 messages
     await db.close()
 
     socket.emit('receive chatlog', messages) // Send the messages to the new client
