@@ -148,7 +148,11 @@ div.home__container__users-view__list__user, div.home__container__chat-view__cha
     word-wrap: break-word;
 }
 
-button.home__container__users-view__buttons__btn {
+p.home__container__users-view__bottom__username {
+    text-align: center;
+}
+
+button.home__container__users-view__bottom__btn {
     width: 100%;
     height: 30px;
     border: none;

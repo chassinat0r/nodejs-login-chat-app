@@ -38,10 +38,11 @@ const homePage = async (req, res, next) => {
                         <div class="home__container__users-view">
                             <h2 class="home__header">Users</h2>
                             <div class="home__container__users-view__list"></div>
-                            <div class="home__container__users-view__buttons">
-                                <button type="button" class="home__container__users-view__buttons__btn" id="editaccount-button">Edit Account</button>
-                                <button type="button" class="home__container__users-view__buttons__btn" id="deleteaccount-button">Delete Account</button>
-                                <button type="button" class="home__container__users-view__buttons__btn" id="signout-button">Sign Out</button>
+                            <div class="home__container__users-view__bottom">
+                                <p class="home__container__users-view__bottom__username"><strong>Signed in as:</strong> ${username}</p>
+                                <button type="button" class="home__container__users-view__bottom__btn" id="editaccount-button">Edit Account</button>
+                                <button type="button" class="home__container__users-view__bottom__btn" id="deleteaccount-button">Delete Account</button>
+                                <button type="button" class="home__container__users-view__bottom__btn" id="signout-button">Sign Out</button>
                             </div>
                         </div>
                         <div class="home__container__chat-view">
