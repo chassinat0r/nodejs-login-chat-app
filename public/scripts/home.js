@@ -45,13 +45,13 @@ socket.on('receive message', message => {
 // Handling the receiving of chatlog for new connections
 socket.on('receive chatlog', messages => {
     for (let i = messages.length-1; i > 0; i--) { // Go through each message of chatlog from last (oldest) to first (newest)
-        const { id, username, content } = messages[i]
+        const { username, content } = messages[i]
 
         // Add message to chatlog
         let html = $('.home__container__chat-view__chatlog').html()
         html += `
             <div class="home__container__chat-view__chatlog__message">
-                <strong>${id}. ${username}:</strong> ${content}
+                <strong>${username}:</strong> ${content}
             </div>
         `
         $('.home__container__chat-view__chatlog').html(html)
