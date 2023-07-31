@@ -15,20 +15,13 @@ const signUpPage = (req, res, next) => {
 const homePage = async (req, res, next) => {
     const session = req.cookies.session // Get session stored in cookie
 
-    if (!session) { // No session stored
-        res.redirect('/sign-in') // Redirect to sign in
-        return
-    }
+    const { username } = await getUserDetails(session)
 
-    const id = await getIdFromSession(session) // Get ID corresponding to session
-
-    if (!id) { // Session does not exist in database
+    if (!username) { // Session does not exist in database
         res.clearCookie('session') // Clear cookie because session is invalid
         res.redirect('/sign-in')
         return
     }
-
-    const { username } = await getUserDetails(id) // Get username of account
 
     res.end(`
         <!DOCTYPE html>
@@ -73,32 +66,20 @@ const homePage = async (req, res, next) => {
     `)
 }
 
-// Function to get ID corresponding to session from database
-const getIdFromSession = async (session) => {
+// Function to get user details corresponding to ID from database
+const getUserDetails = async (session) => {
     const db = await open({
         filename: "accounts.db",
         driver: Database
     })
 
-    const idSessionRow = await db.get("SELECT id FROM sessions WHERE session = ?", session) // Get ID from entry with session provided
+    const sessionRow = await db.get("SELECT id FROM sessions WHERE session = ?", session)
 
-    if (!idSessionRow) { // No entry found
+    if (!sessionRow) {
         return false
     }
 
-    const id = idSessionRow.id // Store ID from query result
-
-    await db.close()
-
-    return id
-}
-
-// Function to get user details corresponding to ID from database
-const getUserDetails = async (id) => {
-    const db = await open({
-        filename: "accounts.db",
-        driver: Database
-    })
+    const id = sessionRow.id
 
     const userRow = await db.get("SELECT * FROM users WHERE id = ?", id) // Get user information corresponding to given ID
 
@@ -115,20 +96,13 @@ const getUserDetails = async (id) => {
 const editPage = async (req, res, next) => {
     const session = req.cookies.session // Get session stored in cookie
 
-    if (!session) { // No session stored
-        res.redirect('/sign-in') // Redirect to sign in
-        return
-    }
+    const { username } = await getUserDetails(session)
 
-    const id = await getIdFromSession(session) // Get ID corresponding to session
-
-    if (!id) { // Session does not exist in database
-        res.clearCookie('session') // Clear cookie because session is invalid
+    if (!username) {
+        res.clearCookie('session')
         res.redirect('/sign-in')
         return
     }
-
-    const { displayname: displayName, username } = await getUserDetails(id)
 
     res.end(`
         <!DOCTYPE html>
@@ -184,6 +158,5 @@ module.exports = {
     homePage,
     editPage,
     deletePage,
-    getIdFromSession,
     getUserDetails
 }
