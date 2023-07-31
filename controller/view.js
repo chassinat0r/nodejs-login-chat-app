@@ -57,6 +57,7 @@ const homePage = async (req, res, next) => {
                             <div class="home__container__chat-view__message">
                                 <input type="text" class="home__container__chat-view__message__body" placeholder="Type message here..." required>
                                 <button type="button" class="home__container__chat-view__message__send">SEND</button>
+                                <div class="home__container__chat-view__message__char-count">0/250</div>
                             </div>
                         </div>
                     </div>

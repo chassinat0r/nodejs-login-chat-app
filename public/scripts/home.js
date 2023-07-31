@@ -21,9 +21,7 @@ socket.on('new user', username => {
     let html = $('.home__container__users-view__list').html() // Get HTML content of users list
     // Add new username to users list
     html += `
-        <div class="home__container__users-view__list__user" id="user_${username}">
-            <span>${username}</span>
-        </div>
+        <div class="home__container__users-view__list__user" id="user_${username}">${username}</div>
     ` 
     $('.home__container__users-view__list').html(html) // Update HTML
 })
@@ -36,7 +34,7 @@ socket.on('receive message', message => {
     // Add new message to chatlog
     html += `
         <div class="home__container__chat-view__chatlog__message">
-            <span><strong>${username}:</strong> ${content}</span>
+            <strong>${username}:</strong> ${content}
         </div>
     `
     $('.home__container__chat-view__chatlog').html(html)
@@ -53,7 +51,7 @@ socket.on('receive chatlog', messages => {
         let html = $('.home__container__chat-view__chatlog').html()
         html += `
             <div class="home__container__chat-view__chatlog__message">
-                <span><strong>${username}:</strong> ${content}</span>
+                <strong>${username}:</strong> ${content}
             </div>
         `
         $('.home__container__chat-view__chatlog').html(html)
@@ -66,9 +64,7 @@ socket.on('receive users', users => {
         // Add username to users list
         let html = $('.home__container__users-view__list').html()
         html += `
-            <div class="home__container__users-view__list__user" id="user_${user}">
-                <span>${user}</span>
-            </div>
+            <div class="home__container__users-view__list__user" id="user_${user}">${user}</div>
         `
         $('.home__container__users-view__list').html(html)
     })
@@ -79,30 +75,40 @@ socket.on('user left', username => {
     $('#user_' + username).remove() // Remove element in users list corresponding to username
 })
 
-// Function to send message
-const sendMessage = () => {
+$('.home__container__chat-view__message__send').click(() => { // Send button clicked
     const content = $('.home__container__chat-view__message__body').val() // Get content of message input
+    const length = content.length // Get character length of message
 
-    if (content.length > 0) { // There is actually a message to send
+    if (length > 0 && length <= 250) { // There is actually a message to send and it doesn't exceed character limit
         socket.emit('send message', {
             username: myUsername,
             content: content
         }) // Send message containing username and content to server
     
         $('.home__container__chat-view__message__body').val("") // Clear message input
+        $('.home__container__chat-view__message__char-count').text("0/250") // Reset character count
     }
-}
-
-$('.home__container__chat-view__message__send').click(() => { // Send button clicked
-    sendMessage() // Send message
 })
 
-// If enter key pressed, send message
-$('.home__container__chat-view__message__body').on('keyup', e => {
+// If enter key pressed, emulate clicking send button
+$('.home__container__chat-view__message__body').on('keydown', e => {
     const keyCode = e.keyCode
 
-    if (keyCode == 13) {
-        e.preventDefault()
-        sendMessage()
+    if (keyCode == 13) { // Key code "13" is enter
+        $('.home__container__chat-view__message__send').click() // Emulate clicking send button
+    }
+})
+
+// When message input is modified, update the character count
+$('.home__container__chat-view__message__body').on('input', () => {
+    const length = $('.home__container__chat-view__message__body').val().length // Get length of message content
+    $('.home__container__chat-view__message__char-count').text(length + "/250") // Update character count to show length out of 250 maximum characters
+
+    if (length > 250) { // Length exceeds maximum of 250
+        $('.home__container__chat-view__message__char-count').css('color', 'red') // Set character count text to red
+        $('.home__container__chat-view__message__send').attr('disabled', true) // Disable send button
+    } else { // Length stays within limit
+        $('.home__container__chat-view__message__char-count').css('color', '') // Remove colour, setting it to default
+        $('.home__container__chat-view__message__send').attr('disabled', false) // Enable send button
     }
 })

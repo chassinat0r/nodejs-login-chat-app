@@ -24,7 +24,7 @@ A chatroom website written in Node.js using Socket.IO for communication between 
 * Message displayed on joining/leaving chat 🟢
 * Sending and receiving messages 🟢
 * Previous chat history displayed on joining 🟢
-* 200 character limit on messages 🟠
+* 250 character limit on messages 🟢
 * Administrator accounts with ban and delete powers 🟠
 * Different chatrooms 🟠
 * Changing username updates it in chat logs 🟠

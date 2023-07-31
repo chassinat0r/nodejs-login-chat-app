@@ -101,24 +101,25 @@ input[type=submit].danger, button.danger {
 
 div.home__container {
     display: flex;
+    width: 100%;
     height: 100%;
 }
 
 @media (orientation: landscape) {
     div.home__container__users-view {
-        flex-basis: 200px;
+        width: 200px;
     }
     div.home__container__chat-view {
-        flex-basis: calc(100% - 200px);
+        width: calc(100% - 220px);
     }
 }
 
 @media (orientation: portrait) {
     div.home__container__users-view {
-        flex-basis: 125px;
+        width: 105px;
     }
     div.home__container__chat-view {
-        flex-basis: calc(100% - 125px);
+        width: calc(100% - 125px);
     }
 }
 
@@ -128,6 +129,7 @@ div.home__container__users-view {
     padding-right: 15px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 0;
 }
 
 div.home__container__chat-view {
@@ -137,15 +139,13 @@ div.home__container__chat-view {
 
 div.home__container__users-view__list {
     overflow-y: auto;
-    flex-basis: 100%;
-}
-
-div.home__container__users-view__buttons {
-    flex-basis: content;
+    flex-grow: 1;
 }
 
 div.home__container__users-view__list__user, div.home__container__chat-view__chatlog__message {
     margin-top: 5px;
+    white-space: initial;
+    word-wrap: break-word;
 }
 
 button.home__container__users-view__buttons__btn {
@@ -161,13 +161,13 @@ button.home__container__users-view__buttons__btn {
 
 div.home__container__chat-view__message {
     width: 100%;
-    flex-basis: 30px;
     display: flex;
 }
 
 input[type=text].home__container__chat-view__message__body {
     border: 1px solid black;
-    width: 100%;
+    flex-grow: 1;
+    min-width: 0;
 }
 
 div.home__container__chat-view__chatlog {
@@ -180,4 +180,13 @@ button.home__container__chat-view__message__send {
     color: white;
     font-weight: bold;
     border: none;
+}
+
+button.home__container__chat-view__message__send:disabled {
+    background-color: rgb(86, 86, 159);
+}
+
+div.home__container__chat-view__message__char-count {
+    margin: 5px;
+    font-weight: bold;
 }
